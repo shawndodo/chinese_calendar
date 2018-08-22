@@ -7,7 +7,7 @@ class CreateChineseCalendar < ActiveRecord::Migration<%= migration_version %>
       t.string :month, comment: '月份'
       t.string :day, comment: '日期'
       t.string :what_day, index: true, comment: '星期几'
-      t.string :special_type, index: true, comment: '特殊类型 工作日/法定假日/公司假日'
+      t.string :special_type, index: true, comment: '特殊类型 工作日/法定假日/公司假日/调休日'
       t.string :remark, comment: '备注'
 
       t.timestamps null: false
