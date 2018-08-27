@@ -24,6 +24,8 @@ module ChineseHoliday::Concerns
 
           SUNDAY = 'sunday'
 
+          WEEKEND = [SATURDAY, SUNDAY]
+
           # 选项
           OPTIONS = get_all_options
 
@@ -37,16 +39,25 @@ module ChineseHoliday::Concerns
           # 工作日
           WORKDAY = 'workday'
 
+          # 周末
+          WEEKEND = 'weekend'
+
           # 法定假日
           CIVIC_HOLIDAY = 'civic_holiday'
 
-          # 法定调休
+          # 法定调休工作
+          CIVIC_WORK = 'civic_work'
+
+          # 法定调休休息
           CIVIC_REST = 'civic_rest'
 
           # 公司假日
           COMPANY_HOLIDAY = 'company_holiday'
 
-          # 公司调休
+          # 公司调休工作
+          COMPANY_WORK = 'company_work'
+
+          # 公司调休修改
           COMPANY_REST = 'company_rest'
 
           # 选项
@@ -59,8 +70,9 @@ module ChineseHoliday::Concerns
       end
 
       module ClassMethods
-        def convert_day(date)
-          case date.cwday
+
+        def convert_day_to_what_day(date)
+          case date.to_date.cwday
           when 1
             ChineseCalendar::WhatDay::MONDAY
           when 2
@@ -77,6 +89,11 @@ module ChineseHoliday::Concerns
             ChineseCalendar::WhatDay::SUNDAY
           end
         end
+
+        def get_common_day_special_type(date)
+          [6, 7].include?(date.to_date.cwday) ? ChineseCalendar::SpecialType::WEEKEND : ChineseCalendar::SpecialType::WORKDAY
+        end
+
       end
 
     end
