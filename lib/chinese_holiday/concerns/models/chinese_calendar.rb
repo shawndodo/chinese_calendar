@@ -60,6 +60,17 @@ module ChineseHoliday::Concerns
           # 公司调休修改
           COMPANY_REST = 'company_rest'
 
+          # 公司设置的
+          COMPANY_SETTING = [
+              COMPANY_HOLIDAY, COMPANY_WORK, COMPANY_REST
+          ]
+
+          # 实际休息日
+          REST = [
+              WEEKEND, CIVIC_HOLIDAY, CIVIC_REST,
+              COMPANY_HOLIDAY, COMPANY_REST
+          ]
+
           # 选项
           OPTIONS = get_all_options
 

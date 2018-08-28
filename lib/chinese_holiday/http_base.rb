@@ -6,7 +6,7 @@ module ChineseHoliday
   class HttpBase
 
     # 获取假期信息链接
-    URL = "http://lanfly.vicp.io/api/holiday/batch?d="
+    BATCH_URL = "http://lanfly.vicp.io/api/holiday/batch?d="
 
     class << self
 
@@ -19,7 +19,6 @@ module ChineseHoliday
 
         Rails.logger.info "请求方法:#{method.to_s.upcase}"
         Rails.logger.info "请求地址:#{url}"
-        Rails.logger.info "请求参数:#{options}"
 
         start_time = Time.now
         Rails.logger.info "请求开始时间:#{start_time.strftime('%Y-%m-%d %H:%M:%S')}"
