@@ -6,17 +6,10 @@ module ChineseHoliday
     class << self
 
       # 初始化日历数据
-      def init_calendar(start_year:, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
+      def init_calendar(*args)
 
         # 得到指定年份的日期
-        date_arr = get_date_range(
-            start_year: start_year,
-            start_month: start_month,
-            start_day: start_day,
-            end_year: end_year,
-            end_month: end_month,
-            end_day: end_day
-        )
+        date_arr = get_date_range(*args)
         # 合成url,发送批量查询请求
         result = send_request_with_url(date_arr)
 
@@ -26,7 +19,7 @@ module ChineseHoliday
       end
 
       # 获取需要查询的时间跨度
-      def get_date_range(start_year:, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
+      def get_date_range(start_year: Date.today.year, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
         begin
           # 避免只输入end_month但那个月没有31号的问题
           temp_end_date = Date.new(end_year, end_month, 1)
