@@ -7,6 +7,8 @@ module ChineseHoliday::Concerns
 
       included do
 
+        scope :weekday, -> { where(special_type: ChineseCalendar::SpecialType::WORK) }
+
         module WhatDay
           include Dictionary::Module::I18n
 
@@ -71,6 +73,10 @@ module ChineseHoliday::Concerns
               COMPANY_HOLIDAY, COMPANY_REST
           ]
 
+          WORK = [
+              WORKDAY, CIVIC_WORK, COMPANY_WORK
+          ]
+
           # 选项
           OPTIONS = get_all_options
 
@@ -103,6 +109,11 @@ module ChineseHoliday::Concerns
 
         def get_common_day_special_type(date)
           [6, 7].include?(date.to_date.cwday) ? ChineseCalendar::SpecialType::WEEKEND : ChineseCalendar::SpecialType::WORKDAY
+        end
+
+        # 获取选定日期内的工作日
+        def get_weekday(start_year: Date.today.year, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
+          self.where(current_date: Date.new(start_year, start_month, start_day)..Date.new(end_year, end_month, end_day)).weekday
         end
 
       end
