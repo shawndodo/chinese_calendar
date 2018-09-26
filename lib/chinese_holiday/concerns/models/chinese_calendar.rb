@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "chinese_holiday/chinese_calendar_support"
+
 module ChineseHoliday::Concerns
   module Models
     module ChineseCalendar
@@ -7,24 +9,28 @@ module ChineseHoliday::Concerns
 
       included do
 
+        include ChineseHoliday::ChineseCalendarSupport
+
         scope :weekday, -> { where(special_type: ChineseCalendar::SpecialType::WORK) }
 
+        scope :rest_day, -> { where(special_type: ChineseCalendar::SpecialType::REST) }
+
         module WhatDay
-          include Dictionary::Module::I18n
+          include ChineseHoliday::Dictionary::Module::I18n
 
-          MONDAY = 'monday'
+          MONDAY = "monday"
 
-          TUESDAY = 'tuesday'
+          TUESDAY = "tuesday"
 
-          WEDNESDAY = 'wednesday'
+          WEDNESDAY = "wednesday"
 
-          THURSDAY = 'thursday'
+          THURSDAY = "thursday"
 
-          FRIDAY = 'friday'
+          FRIDAY = "friday"
 
-          SATURDAY = 'saturday'
+          SATURDAY = "saturday"
 
-          SUNDAY = 'sunday'
+          SUNDAY = "sunday"
 
           WEEKEND = [SATURDAY, SUNDAY]
 
@@ -36,31 +42,31 @@ module ChineseHoliday::Concerns
         end
 
         module SpecialType
-          include Dictionary::Module::I18n
+          include ChineseHoliday::Dictionary::Module::I18n
 
           # 工作日
-          WORKDAY = 'workday'
+          WORKDAY = "workday"
 
           # 周末
-          WEEKEND = 'weekend'
+          WEEKEND = "weekend"
 
           # 法定假日
-          CIVIC_HOLIDAY = 'civic_holiday'
+          CIVIC_HOLIDAY = "civic_holiday"
 
           # 法定调休工作
-          CIVIC_WORK = 'civic_work'
+          CIVIC_WORK = "civic_work"
 
           # 法定调休休息
-          CIVIC_REST = 'civic_rest'
+          CIVIC_REST = "civic_rest"
 
           # 公司假日
-          COMPANY_HOLIDAY = 'company_holiday'
+          COMPANY_HOLIDAY = "company_holiday"
 
           # 公司调休工作
-          COMPANY_WORK = 'company_work'
+          COMPANY_WORK = "company_work"
 
           # 公司调休修改
-          COMPANY_REST = 'company_rest'
+          COMPANY_REST = "company_rest"
 
           # 公司设置的
           COMPANY_SETTING = [
@@ -107,13 +113,17 @@ module ChineseHoliday::Concerns
           end
         end
 
+        # 判断到底是工作日还是休息日
         def get_common_day_special_type(date)
           [6, 7].include?(date.to_date.cwday) ? ChineseCalendar::SpecialType::WEEKEND : ChineseCalendar::SpecialType::WORKDAY
         end
 
-        # 获取选定日期内的工作日
-        def get_weekday(start_year: Date.today.year, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
-          self.where(current_date: Date.new(start_year, start_month, start_day)..Date.new(end_year, end_month, end_day)).weekday
+        # 获得休息日或工作日
+        %w(weekday rest_day).each do |k|
+          define_method "get_#{k}" do |start_date: Date.today.beginning_of_year, end_date: Date.today.end_of_year|
+            start_date, end_date = validate_date(start_date, end_date)
+            self.where(current_date: start_date..end_date).public_send(k)
+          end
         end
 
       end

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require "chinese_holiday/chinese_calendar_support"
+
 module ChineseHoliday
   class CalendarInit
+
+    include ChineseCalendarSupport
 
     class << self
 
@@ -19,18 +23,10 @@ module ChineseHoliday
       end
 
       # 获取需要查询的时间跨度
-      def get_date_range(start_year: Date.today.year, start_month: 1, start_day: 1, end_year: start_year, end_month: 12, end_day: 31)
-        begin
-          # 避免只输入end_month但那个月没有31号的问题
-          temp_end_date = Date.new(end_year, end_month, 1)
-          end_date = temp_end_date.end_of_month.day < end_day ? temp_end_date.end_of_month : Date.new(end_year, end_month, end_day)
-          start_date = Date.new(start_year, start_month, start_day)
-          raise StandardError, "输入的初始日期大于截止日期" if start_date > end_date
-          # 初始化日期段
-          start_date.to_date.upto(end_date).to_a
-        rescue ArgumentError
-          raise ArgumentError, "输入的日期参数格式错误"
-        end
+      def get_date_range(start_date: Date.today.beginning_of_year, end_date: Date.today.end_of_year)
+        start_date, end_date = validate_date(start_date, end_date)
+        # 初始化日期段
+        start_date.upto(end_date).to_a
       end
 
       # 获取指定日期的信息
