@@ -94,6 +94,7 @@ module ChineseHoliday::Concerns
 
       module ClassMethods
 
+        # 得到指定日期是星期几
         def convert_day_to_what_day(date)
           case date.to_date.cwday
           when 1
@@ -114,11 +115,14 @@ module ChineseHoliday::Concerns
         end
 
         # 判断到底是工作日还是休息日
+        # ChineseCalendar.get_common_day_special_type('2018-01-01'.to_date)
         def get_common_day_special_type(date)
           [6, 7].include?(date.to_date.cwday) ? ChineseCalendar::SpecialType::WEEKEND : ChineseCalendar::SpecialType::WORKDAY
         end
 
         # 获得休息日或工作日
+        # ChineseCalendar.get_weekday
+        # ChineseCalendar.get_rest_day
         %w(weekday rest_day).each do |k|
           define_method "get_#{k}" do |start_date: Date.today.beginning_of_year, end_date: Date.today.end_of_year|
             start_date, end_date = validate_date(start_date, end_date)

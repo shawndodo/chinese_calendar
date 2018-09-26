@@ -14,7 +14,8 @@ module ChineseHoliday
       #
       # @param {Symbol} method - 请求方法: get, post, patch, put 等等
       # @param {String} url - 请求地址路径
-      # @param {Boolean} raw - 是否需要原始相应
+      # @param {Boolean} raw - 是否需要原始返回值
+      #
       def send_request(method, url, raw = false)
 
         Rails.logger.info "请求方法:#{method.to_s.upcase}"

@@ -5,6 +5,8 @@ module ChineseHoliday
     extend ActiveSupport::Concern
 
     module ClassMethods
+
+      # 验证输入的起止日期格式、内容是否正确
       def validate_date(start_date, end_date)
         raise StandardError, "没有起止日期" if start_date.blank? || end_date.blank?
         begin
@@ -17,6 +19,7 @@ module ChineseHoliday
         raise StandardError, "输入的初始日期大于截止日期" if start_date > end_date
         return start_date, end_date
       end
+
     end
 
   end
