@@ -40,7 +40,7 @@ module ChineseHoliday
       # 分析批量查询得到的结果
       # ChineseHoliday::CalendarInit.parse_batch_result(result)
       def parse_batch_result(result)
-        raise StandardError, "获取日期出错" if result['code'] != 0
+        raise StandardError, "获取日期数据出错" if result['code'] != 0 || result['code'].blank?
         ChineseCalendar.transaction do
           result['holiday'].each do |k, v|
             date_hash = Date._parse(k)
