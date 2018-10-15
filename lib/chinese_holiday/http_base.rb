@@ -6,7 +6,9 @@ module ChineseHoliday
   class HttpBase
 
     # 获取假期信息链接
-    BATCH_URL = "http://lanfly.vicp.io/api/holiday/batch?d="
+    # 20181015 替换地址
+    # BATCH_URL = "http://lanfly.vicp.io/api/holiday/batch?d="
+    BATCH_URL = "http://timor.tech/api/holiday/batch?d="
 
     class << self
 
