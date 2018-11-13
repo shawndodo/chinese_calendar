@@ -15,81 +15,83 @@ module ChineseHoliday::Concerns
 
         scope :rest_day, -> { where(special_type: ChineseCalendar::SpecialType::REST) }
 
-        module WhatDay
-          include ChineseHoliday::Dictionary::Module::I18n
+      end
 
-          MONDAY = "monday"
+      # 星期几
+      module WhatDay
+        include ChineseHoliday::Dictionary::Module::I18n
 
-          TUESDAY = "tuesday"
+        MONDAY = "monday"
 
-          WEDNESDAY = "wednesday"
+        TUESDAY = "tuesday"
 
-          THURSDAY = "thursday"
+        WEDNESDAY = "wednesday"
 
-          FRIDAY = "friday"
+        THURSDAY = "thursday"
 
-          SATURDAY = "saturday"
+        FRIDAY = "friday"
 
-          SUNDAY = "sunday"
+        SATURDAY = "saturday"
 
-          WEEKEND = [SATURDAY, SUNDAY]
+        SUNDAY = "sunday"
 
-          # 选项
-          OPTIONS = get_all_options
+        WEEKEND = [SATURDAY, SUNDAY]
 
-          # 全部
-          ALL = get_all_values
-        end
+        # 选项
+        OPTIONS = get_all_options
 
-        module SpecialType
-          include ChineseHoliday::Dictionary::Module::I18n
+        # 全部
+        ALL = get_all_values
+      end
 
-          # 工作日
-          WORKDAY = "workday"
+      # 日期类型
+      module SpecialType
+        include ChineseHoliday::Dictionary::Module::I18n
 
-          # 周末
-          WEEKEND = "weekend"
+        # 工作日
+        WORKDAY = "workday"
 
-          # 法定假日
-          CIVIC_HOLIDAY = "civic_holiday"
+        # 周末
+        WEEKEND = "weekend"
 
-          # 法定调休工作
-          CIVIC_WORK = "civic_work"
+        # 法定假日
+        CIVIC_HOLIDAY = "civic_holiday"
 
-          # 法定调休休息
-          CIVIC_REST = "civic_rest"
+        # 法定调休工作
+        CIVIC_WORK = "civic_work"
 
-          # 公司假日
-          COMPANY_HOLIDAY = "company_holiday"
+        # 法定调休休息
+        CIVIC_REST = "civic_rest"
 
-          # 公司调休工作
-          COMPANY_WORK = "company_work"
+        # 公司假日
+        COMPANY_HOLIDAY = "company_holiday"
 
-          # 公司调休修改
-          COMPANY_REST = "company_rest"
+        # 公司调休工作
+        COMPANY_WORK = "company_work"
 
-          # 公司设置的
-          COMPANY_SETTING = [
-              COMPANY_HOLIDAY, COMPANY_WORK, COMPANY_REST
-          ]
+        # 公司调休修改
+        COMPANY_REST = "company_rest"
 
-          # 实际休息日
-          REST = [
-              WEEKEND, CIVIC_HOLIDAY, CIVIC_REST,
-              COMPANY_HOLIDAY, COMPANY_REST
-          ]
+        # 公司设置的
+        COMPANY_SETTING = [
+            COMPANY_HOLIDAY, COMPANY_WORK, COMPANY_REST
+        ]
 
-          WORK = [
-              WORKDAY, CIVIC_WORK, COMPANY_WORK
-          ]
+        # 实际休息日
+        REST = [
+            WEEKEND, CIVIC_HOLIDAY, CIVIC_REST,
+            COMPANY_HOLIDAY, COMPANY_REST
+        ]
 
-          # 选项
-          OPTIONS = get_all_options
+        WORK = [
+            WORKDAY, CIVIC_WORK, COMPANY_WORK
+        ]
 
-          # 全部
-          ALL = get_all_values
-        end
+        # 选项
+        OPTIONS = get_all_options
 
+        # 全部
+        ALL = get_all_values
       end
 
       module ClassMethods
