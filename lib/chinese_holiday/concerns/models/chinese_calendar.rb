@@ -122,6 +122,12 @@ module ChineseHoliday::Concerns
           [6, 7].include?(date.to_date.cwday) ? ChineseCalendar::SpecialType::WEEKEND : ChineseCalendar::SpecialType::WORKDAY
         end
 
+        # 判断日期是否是工作日
+        # ChineseCalendar.workday?('2018-01-01'.to_date)
+        def workday?(date)
+          ChineseCalendar::SpecialType::WORK.include?(ChineseCalendar.where(current_date: date.to_date).first.special_type)
+        end
+
         # 获得休息日或工作日
         # ChineseCalendar.get_weekday
         # ChineseCalendar.get_rest_day
