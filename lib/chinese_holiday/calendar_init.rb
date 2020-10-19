@@ -15,11 +15,12 @@ module ChineseHoliday
 
         # 得到指定年份的日期
         date_arr = get_date_range(*args)
-        # 合成url,发送批量查询请求
-        result = send_request_with_url(date_arr)
-
-        # 根据得到的数据批量创建或修改日期
-        parse_batch_result(result)
+        date_arr.each do |arr|
+          # 合成url,发送批量查询请求
+          result = send_request_with_url(arr)
+          # 根据得到的数据批量创建或修改日期
+          parse_batch_result(result)
+        end
 
       end
 
@@ -28,7 +29,14 @@ module ChineseHoliday
       def get_date_range(start_date: Date.today.beginning_of_year, end_date: Date.today.end_of_year)
         start_date, end_date = validate_date(start_date, end_date)
         # 初始化日期段
-        start_date.upto(end_date).to_a
+        temp_date = start_date
+        arr = []
+
+        until temp_date.end_of_month == end_date do
+          arr << temp_date.upto(temp_date.end_of_month).to_a
+          temp_date = temp_date.next_month
+        end
+        arr
       end
 
       # 获取指定日期的信息
