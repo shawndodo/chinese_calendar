@@ -32,7 +32,7 @@ module ChineseHoliday
         temp_date = start_date
         arr = []
 
-        until temp_date.end_of_month == end_date do
+        until temp_date.yesterday == end_date do
           arr << temp_date.upto(temp_date.end_of_month).to_a
           temp_date = temp_date.next_month
         end
